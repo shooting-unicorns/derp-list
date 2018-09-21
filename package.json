@@ -1,7 +1,7 @@
 {
-  "name": "react-list",
-  "version": "1.0.0",
-  "description": "react-list React component",
+  "name": "derp-list",
+  "version": "1.0.1",
+  "description": "A React library for rendering a list of data like Google's mobile search results.",
   "main": "lib/index.js",
   "module": "es/index.js",
   "files": [
@@ -19,20 +19,34 @@
     "test:coverage": "nwb test-react --coverage",
     "test:watch": "nwb test-react --server"
   },
-  "dependencies": {},
+  "dependencies": {
+    "axios": "^0.18.0",
+    "react-loads": "^5.0.0"
+  },
   "peerDependencies": {
     "react": "16.x"
   },
   "devDependencies": {
+    "@medipass/eslint-config-react-medipass": "8.3.0",
     "nwb": "0.23.x",
     "react": "^16.5.2",
-    "react-dom": "^16.5.2"
+    "react-dom": "^16.5.2",
+    "eslint": "4.16.0",
+    "eslint-config-react-app": "2.1.0",
+    "eslint-plugin-flowtype": "2.41.0",
+    "eslint-plugin-import": "2.12.0",
+    "eslint-plugin-jsx-a11y": "6.0.3",
+    "eslint-plugin-prettier": "2.5.0",
+    "eslint-plugin-react": "7.5.1"
   },
-  "author": "",
-  "homepage": "",
+  "author": "Shooting Unicorns",
+  "homepage": "https://shooting-unicorns.com",
   "license": "MIT",
   "repository": "",
   "keywords": [
-    "react-component"
+    "react-component",
+    "react-library",
+    "react-list",
+    "derp-list"
   ]
 }

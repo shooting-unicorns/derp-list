@@ -3,7 +3,7 @@ module.exports = {
   npm: {
     esModules: true,
     umd: {
-      global: 'ReactList',
+      global: 'DerpList',
       externals: {
         react: 'React'
       }
