@@ -9,11 +9,11 @@ export const getExamplePosts = async (query: { page: Object }) =>
   request({ url: '/api/unknown', method: 'GET', params: query });
 
 class Demo extends Component {
-  getDummyData = async ({ page }: { page: number } = {}) => {
+  getRandomPosts = async ({ page }: { page: number } = {}) => {
     const query = { page: page || 1 };
-    const test = await getExamplePosts(query);
+    const randomPosts = await getExamplePosts(query);
 
-    return { items: test.data, pageCount: test.total_pages };
+    return { items: randomPosts.data, pageCount: randomPosts.total_pages };
   };
 
   render() {
@@ -42,7 +42,7 @@ class Demo extends Component {
           )}
           emptyRenderer={() => <div>No items...</div>}
           errorRenderer={({ error }) => <div>The following error has occured: {error}</div>}
-          loadData={this.getDummyData}
+          loadData={this.getRandomPosts}
           loadMoreRenderer={({ isLoading, loadMore }) => (
             <Fragment>
               {isLoading && <div>loading...</div>}

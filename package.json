@@ -1,7 +1,7 @@
 {
   "name": "derp-list",
-  "version": "1.0.1",
-  "description": "A React library for rendering a list of data like Google's mobile search results.",
+  "version": "1.0.2",
+  "description": "A React library for rendering a list of data like Google Chrome on mobile devices.",
   "main": "lib/index.js",
   "module": "es/index.js",
   "files": [
