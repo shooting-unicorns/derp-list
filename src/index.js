@@ -1,4 +1,5 @@
 // @flow
+
 import React, { type Element, Fragment } from 'react';
 import Loads from 'react-loads';
 
@@ -22,8 +23,8 @@ type State = {
 export default class DataList extends React.Component<Props, State> {
   static defaultProps = {
     contextKey: null,
+    emptyRenderer: () => null,
     errorRenderer: () => null,
-    loadingRenderer: () => null,
     pageCount: 1,
     items: []
   };
@@ -41,6 +42,7 @@ export default class DataList extends React.Component<Props, State> {
 
   getMoreData = ({ getData }: { getData: Function }) => { // eslint-disable-line
     const { currentPage } = this.state;
+
     this.setState({ currentPage: currentPage + 1 }, () => getData());
   };
 
@@ -55,7 +57,9 @@ export default class DataList extends React.Component<Props, State> {
               {dataRenderer({ isLoading, items: items || this.state.items })}
               {!isLoading && items && items.length === 0 && emptyRenderer()}
               {currentPage < pageCount && (
-                <div>{loadMoreRenderer({ isLoading, loadMore: () => this.getMoreData({ getData: load }) })}</div>
+                <Fragment>
+                  {loadMoreRenderer({ isLoading, loadMore: () => this.getMoreData({ getData: load }) })}
+                </Fragment>
               )}
             </Fragment>
           )}

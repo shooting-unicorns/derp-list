@@ -23,7 +23,7 @@ class Demo extends Component {
           Derp list demo
           <br />
           <a href="https://shooting-unicorns.com">
-            A Shooting Unicorns Component
+            A Google like data list!
             <span role="img" aria-label="shooting unicorns">
               🦄
             </span>
@@ -46,7 +46,7 @@ class Demo extends Component {
           loadMoreRenderer={({ isLoading, loadMore }) => (
             <Fragment>
               {isLoading && <div>loading...</div>}
-              <button onClick={loadMore}>Load more</button>
+              <button onClick={loadMore}>More results</button>
             </Fragment>
           )}
         />

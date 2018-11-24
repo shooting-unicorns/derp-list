@@ -1,10 +1,8 @@
-# derp-list
+# derp-list 🤓🦄
 
-[![Travis][build-badge]][build]
-[![npm package][npm-badge]][npm]
-[![Coveralls][coveralls-badge]][coveralls]
+A React library for rendering a list of data like Google search results.
 
-A React library for rendering a list of data like Google's mobile search results.
+![alt text](https://shooting-unicorns.com/images/derp-list-demo.gif "Derp list demo")
 
 ## Installation
 
@@ -23,58 +21,50 @@ yarn add derp-list
 
 ```js
 
-getDummyData = async ({ page }: { page: number } = {}) => {
+getRandomPosts = async ({ page }: { page: number } = {}) => {
     const query = { page: page || 1 };
-    const test = await getExamplePosts(query);
+    const randomPosts = await getExamplePosts(query);
 
-    return { items: test.data, pageCount: test.total_pages };
-  };
+    return { items: randomPosts.data, pageCount: randomPosts.total_pages };
+};
 
 ```
 
 ```js
 export default () => (
-   <div>
+   <Fragment>
         <h1>
-            <a href="https://shooting-unicorns.com">
-            Derp list demo
+          Derp list demo
+          <br />
+          <a href="https://shooting-unicorns.com">
+            A Google like data list!
             <span role="img" aria-label="shooting unicorns">
-                {' '}
-                🦄
+              🦄
             </span>
-            </a>
+          </a>
         </h1>
         <DerpList
-            contextKey="items"
-            loadData={this.getDummyData}
-            loadMoreRenderer={({ loadMore, isLoading }) => (
-            <div className="has-text-centered">
-                <button onClick={loadMore}>Load more</button>
-            </div>
-            )}
-            loadingRenderer={() => <div>loading...</div>}
-            errorRenderer={({ error }) => <div>The following error has occured: {error}</div>}
-            dataRenderer={({ items }) => (
-            <div>
-                {items && items.length === 0 ? (
-                <div>
-                    No results{' '}
-                    <span role="img" aria-label="sad face">
-                    😢
-                    </span>
-                </div>
-                ) : (
-                <div>
-                    {items.map((item, index) => (
-                    /* eslint-disable react/no-array-index-key */
-                    <div key={index}>{item.name}</div>
-                    ))}
-                </div>
-                )}
-            </div>
-            )}
+          contextKey="items"
+          dataRenderer={({ isLoading, items }) => (
+            <Fragment>
+              {isLoading && items.length === 0 && <div>loading</div>}
+              {items.map((item, index) => (
+                /* eslint-disable react/no-array-index-key */
+                <div key={index}>{item.name}</div>
+              ))}
+            </Fragment>
+          )}
+          emptyRenderer={() => <div>No items...</div>}
+          errorRenderer={({ error }) => <div>The following error has occured: {error}</div>}
+          loadData={this.getRandomPosts}
+          loadMoreRenderer={({ isLoading, loadMore }) => (
+            <Fragment>
+              {isLoading && <div>loading...</div>}
+              <button onClick={loadMore}>More results</button>
+            </Fragment>
+          )}
         />
-        </div>
+      </Fragment>
 );
 ```
 
@@ -90,19 +80,19 @@ DerpList uses ReactLoads which offers an unique identifier for caching responses
 
 > `any`
 
-Trigger to fetch more data from your paginated request
+Returns `isLoading` when data is fetching and `loadMore` function to fetch more data from your paginated request.
 
 #### dataRenderer
 
 > `any`
 
-Renders when a response is received.
+Returns `isLoading` when data is fetching and `items` when a response is received.
 
-#### loadingRenderer
+#### emptyRenderer
 
 > `any`
 
-Renders when data is loading.
+Renders when no data is fetched.
 
 #### errorRenderer
 

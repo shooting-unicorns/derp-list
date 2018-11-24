@@ -43,7 +43,7 @@
   "author": "Shooting Unicorns",
   "homepage": "https://shooting-unicorns.com",
   "license": "MIT",
-  "repository": "",
+  "repository": "https://github.com/shooting-unicorns/derp-list",
   "keywords": [
     "react-component",
     "react-library",
