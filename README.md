@@ -2,8 +2,6 @@
 
 A React library for rendering a list of data like Google search results.
 
-![alt text](https://shooting-unicorns.com/images/derp-list-demo.gif "Derp list demo")
-
 ## Installation
 
 ```
