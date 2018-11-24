@@ -1,13 +1,12 @@
 // @flow
-
-import React, { Component } from 'react';
+import React, { type Element, Fragment } from 'react';
 import Loads from 'react-loads';
 
 type Props = {
   contextKey?: string,
   dataRenderer: ({ items: Array<Object> }) => Element<any>,
+  emptyRenderer?: () => Element<any>,
   errorRenderer?: ({ error: Object }) => Element<any>,
-  loadingRenderer?: () => Element<any>,
   loadData: Function,
   loadMoreRenderer: ({ isLoading: boolean, loadMore: Function }) => Element<any>,
   pageCount?: number,
@@ -20,7 +19,7 @@ type State = {
   pageCount: number
 };
 
-class DerpList extends Component<Props, State> {
+export default class DataList extends React.Component<Props, State> {
   static defaultProps = {
     contextKey: null,
     errorRenderer: () => null,
@@ -33,12 +32,11 @@ class DerpList extends Component<Props, State> {
 
   getData = async () => {
     const { loadData } = this.props;
-    const { currentPage } = this.state;
+    const { currentPage, items } = this.state;
     const data = await loadData({ page: currentPage });
-    const items = [...this.state.items, ...data.items];
-    this.setState({ items, pageCount: data.pageCount });
+    const newItems = [...items, ...data.items];
 
-    return items;
+    this.setState({ items: newItems, pageCount: data.pageCount });
   };
 
   getMoreData = ({ getData }: { getData: Function }) => { // eslint-disable-line
@@ -47,23 +45,25 @@ class DerpList extends Component<Props, State> {
   };
 
   render = () => {
-    const { contextKey, dataRenderer, errorRenderer, loadingRenderer, loadMoreRenderer } = this.props;
+    const { contextKey, dataRenderer, emptyRenderer, errorRenderer, loadMoreRenderer } = this.props;
     const { currentPage, pageCount } = this.state;
     return (
-      <Loads contextKey={contextKey} loadOnMount fn={this.getData}>
-        {({ load, response: items, error, isError, isIdle, isLoading, isSuccess }) => (
-          <div>
-            {isSuccess && dataRenderer({ items: items || this.state.items })}
-            {(isIdle || isLoading) && loadingRenderer && loadingRenderer()}
-            {isError && errorRenderer && errorRenderer({ error })}
-            {currentPage < pageCount && (
-              <div>{loadMoreRenderer({ isLoading, loadMore: () => this.getMoreData({ getData: load }) })}</div>
-            )}
-          </div>
-        )}
+      <Loads contextKey={contextKey} loadOnMount load={this.getData}>
+        <Loads.Loading or={[Loads.Idle, Loads.Success]}>
+          {({ isLoading, response: items, load }) => (
+            <Fragment>
+              {dataRenderer({ isLoading, items: items || this.state.items })}
+              {!isLoading && items && items.length === 0 && emptyRenderer()}
+              {currentPage < pageCount && (
+                <div>{loadMoreRenderer({ isLoading, loadMore: () => this.getMoreData({ getData: load }) })}</div>
+              )}
+            </Fragment>
+          )}
+        </Loads.Loading>
+        <Loads.Error>
+          {({ isError, error }) => <Fragment>{isError && errorRenderer && errorRenderer({ error })}</Fragment>}
+        </Loads.Error>
       </Loads>
     );
   };
 }
-
-export default DerpList;

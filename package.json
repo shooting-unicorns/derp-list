@@ -21,23 +21,24 @@
   },
   "dependencies": {
     "axios": "^0.18.0",
-    "react-loads": "^5.0.0"
+    "react-loads": "6.0.1",
+    "react-test-renderer": "^16.6.3"
   },
   "peerDependencies": {
     "react": "16.x"
   },
   "devDependencies": {
     "@medipass/eslint-config-react-medipass": "8.3.0",
-    "nwb": "0.23.x",
-    "react": "^16.5.2",
-    "react-dom": "^16.5.2",
     "eslint": "4.16.0",
     "eslint-config-react-app": "2.1.0",
     "eslint-plugin-flowtype": "2.41.0",
     "eslint-plugin-import": "2.12.0",
     "eslint-plugin-jsx-a11y": "6.0.3",
     "eslint-plugin-prettier": "2.5.0",
-    "eslint-plugin-react": "7.5.1"
+    "eslint-plugin-react": "7.5.1",
+    "nwb": "0.23.x",
+    "react": "^16.5.2",
+    "react-dom": "^16.5.2"
   },
   "author": "Shooting Unicorns",
   "homepage": "https://shooting-unicorns.com",

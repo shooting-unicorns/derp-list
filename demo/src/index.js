@@ -1,9 +1,8 @@
 // @flow
 
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { render } from 'react-dom';
 import request from './requests';
-
 import DerpList from '../../src';
 
 export const getExamplePosts = async (query: { page: Object }) =>
@@ -19,47 +18,39 @@ class Demo extends Component {
 
   render() {
     return (
-      <div>
+      <Fragment>
         <h1>
+          Derp list demo
+          <br />
           <a href="https://shooting-unicorns.com">
-            Derp list demo
+            A Shooting Unicorns Component
             <span role="img" aria-label="shooting unicorns">
-              {' '}
               🦄
             </span>
           </a>
         </h1>
         <DerpList
           contextKey="items"
-          loadData={this.getDummyData}
-          loadMoreRenderer={({ loadMore, isLoading }) => (
-            <div className="has-text-centered">
-              <button onClick={loadMore}>Load more</button>
-            </div>
+          dataRenderer={({ isLoading, items }) => (
+            <Fragment>
+              {isLoading && items.length === 0 && <div>loading</div>}
+              {items.map((item, index) => (
+                /* eslint-disable react/no-array-index-key */
+                <div key={index}>{item.name}</div>
+              ))}
+            </Fragment>
           )}
-          loadingRenderer={() => <div>loading...</div>}
+          emptyRenderer={() => <div>No items...</div>}
           errorRenderer={({ error }) => <div>The following error has occured: {error}</div>}
-          dataRenderer={({ items }) => (
-            <div>
-              {items && items.length === 0 ? (
-                <div>
-                  No results{' '}
-                  <span role="img" aria-label="sad face">
-                    😢
-                  </span>
-                </div>
-              ) : (
-                <div>
-                  {items.map((item, index) => (
-                    /* eslint-disable react/no-array-index-key */
-                    <div key={index}>{item.name}</div>
-                  ))}
-                </div>
-              )}
-            </div>
+          loadData={this.getDummyData}
+          loadMoreRenderer={({ isLoading, loadMore }) => (
+            <Fragment>
+              {isLoading && <div>loading...</div>}
+              <button onClick={loadMore}>Load more</button>
+            </Fragment>
           )}
         />
-      </div>
+      </Fragment>
     );
   }
 }
